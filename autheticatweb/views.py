@@ -251,7 +251,7 @@ from .models import Category, Product, MeasurementUnit
 from django.http import HttpResponse
 
 # Collection page - Display categories, products, and measurement units
-@login_required
+@custom_login_required
 def collections(request):
     categories = Category.objects.all()
     products = Product.objects.all()
@@ -264,7 +264,7 @@ def collections(request):
     })
 
 # Add Category
-@login_required
+@custom_login_required
 def add_category(request):
     if request.method == 'POST':
         category_name = request.POST['category_name']
@@ -287,7 +287,7 @@ def delete_category(request, category_id):
     return redirect('collections')
 
 # Add Product
-@login_required
+@custom_login_required
 def add_product(request):
     if request.method == 'POST':
         product_name = request.POST['product_name']
@@ -301,7 +301,7 @@ def add_product(request):
     return redirect('collections')
 
 # Delete Product
-@login_required
+@custom_login_required
 def delete_product(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
@@ -312,7 +312,7 @@ def delete_product(request, product_id):
     return redirect('collections')
 
 # Add Measurement Unit
-@login_required
+@custom_login_required
 def add_measurement_unit(request):
     if request.method == 'POST':
         measurement_unit_name = request.POST['measurement_unit_name']
@@ -324,7 +324,7 @@ def add_measurement_unit(request):
     return redirect('collections')
 
 # Delete Measurement Unit
-@login_required
+@custom_login_required
 def delete_measurement_unit(request, unit_id):
     try:
         unit = MeasurementUnit.objects.get(id=unit_id)
