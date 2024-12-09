@@ -341,6 +341,7 @@ from .forms import ReturnItemForm
 
 from .models import ReturnedItem
 
+@custom_login_required
 def return_item_view(request):
     
     if request.method == 'POST':
@@ -356,6 +357,8 @@ def return_item_view(request):
 
 from django.shortcuts import render
 
+
+@custom_login_required
 def returned_items_list(request):
     # Fetch all serial numbers from the Sale model
     sale_serials = Sale.objects.values_list('serial_no', flat=True)  # Extract only serial numbers
@@ -374,7 +377,7 @@ from .models import ReturnedItem
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import ReturnedItem
-
+@custom_login_required
 def delete_returned_item(request, item_id):
     if request.method == 'DELETE':
         item = get_object_or_404(ReturnedItem, id=item_id)
@@ -388,7 +391,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import ReturnedItem
 from .forms import ReturnItemForm
-
+@custom_login_required
 def return_item_view(request):
     sales = Sale.objects.all()
 
