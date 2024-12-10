@@ -84,13 +84,16 @@ WSGI_APPLICATION = 'webproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+import dj_database_url
+
+import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'dbmspro.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default="postgresql://nps_maagement_database_user:fLRwHP3fuE3xP2AlgjaMNxheLCnIqjUK@dpg-ctbraft2ng1s73bpc250-a.oregon-postgres.render.com/nps_maagement_database"
+    )
 }
+
 
 
 # Password validation

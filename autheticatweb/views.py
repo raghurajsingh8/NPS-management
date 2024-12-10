@@ -341,6 +341,7 @@ from .forms import ReturnItemForm
 
 from .models import ReturnedItem
 
+@custom_login_required
 def return_item_view(request):
     
     if request.method == 'POST':
