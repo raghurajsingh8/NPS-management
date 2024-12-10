@@ -187,7 +187,8 @@ def sale_form(request):
             # Split the serial numbers by commas or new lines
             import re
 
-            serial_no_list = [serial.strip() for serial in re.split('[,\n\s]+', serial_no)]
+            serial_no_list = [serial.strip() for serial in re.split('[,\n]+', serial_no)]
+
   # Or use split('\n') for new lines
 
             # Loop over the list and create individual Sale records for each serial number
@@ -195,14 +196,16 @@ def sale_form(request):
                 # Create a new Sale object for each serial number
                 sale = Sale(
                     sale_to=form.cleaned_data['sale_to'],
-                    quantity=1,
+                    quantity=form.cleaned_data['quantity'],
                     measurement_unit=form.cleaned_data['measurement_unit'],
                     product=form.cleaned_data['product'],
                     category=form.cleaned_data['category'],
                     serial_no=serial,  # Use individual serial number
                     box_type=form.cleaned_data['box_type'],
                     date=form.cleaned_data['date'],
-                    verified_by=request.user.email
+                    verified_by=request.user.email,
+                    description=form.cleaned_data['description']  # Description ko add kiya
+
                 )
                 sale.save()  # Save the individual Sale record
 
@@ -220,7 +223,7 @@ def purchase_form(request):
             serial_no = form.cleaned_data['serial_no']
             # Split the serial numbers by commas or new lines
             import re
-            serial_no_list = [serial.strip() for serial in re.split('[,\n\s]+', serial_no)]
+            serial_no_list = [serial.strip() for serial in re.split('[,\n]+', serial_no)]
 
 
             # Loop over the list and create individual Purchase records for each serial number
@@ -228,14 +231,16 @@ def purchase_form(request):
                 # Create a new Purchase object for each serial number
                 purchase = Purchase(
                     purchased_from=form.cleaned_data['purchased_from'],
-                    quantity=1,
+                    quantity=form.cleaned_data['quantity'],
                     measurement_unit=form.cleaned_data['measurement_unit'],
                     product=form.cleaned_data['product'],
                     category=form.cleaned_data['category'],
                     serial_no=serial,  # Use individual serial number
                     box_type=form.cleaned_data['box_type'],
                     date=form.cleaned_data['date'],
-                    verified_by=request.user.email
+                    verified_by=request.user.email,
+                    description=form.cleaned_data['description']  # Description ko add kiya
+
                 )
                 purchase.save()  # Save the individual Purchase record
 

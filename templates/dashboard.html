@@ -35,6 +35,7 @@
                     <th>Box Type</th>
                     <th>Date</th>
                     <th>Verified By</th>
+                    <th>Description</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,6 +61,8 @@
                     <td>{{ sale.box_type }}</td>
                     <td>{{ sale.date }}</td>
                     <td>{{ sale.verified_by }}</td>
+                    <td>{{ sale.description }}</td>
+
                  
                 </tr>
                 {% endfor %}
@@ -87,6 +90,8 @@
                     <th>Box Type</th>
                     <th>Date</th>
                     <th>Verified By</th>
+                    <th>Description</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -100,6 +105,8 @@
                     <td>Not Applicable</td>
                     <td>{{ purchase.date }}</td>
                     <td>{{ purchase.verified_by }}</td>
+                    <td>{{ purchase.description }}</td>
+
                 </tr>
                 {% endfor %}
             </tbody>
