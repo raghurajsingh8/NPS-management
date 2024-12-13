@@ -5,7 +5,7 @@ from .models import Sale, Purchase
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User  # Add this import for User model
-
+import re
 # Home view
 def home(request):
     return render(request, 'home.html')
@@ -530,3 +530,63 @@ def page_not_found(request, exception):
 
 def permission_denied(request, exception):
     return render(request, '403.html', status=403)
+
+@custom_login_required
+def sale_form(request):
+    if request.method == 'POST':
+        form = SaleForm(request.POST)
+        if form.is_valid():
+            serial_no = form.cleaned_data['serial_no']
+            rms_id = form.cleaned_data.get('rms_id') or None
+            serial_no_list = [serial.strip() for serial in re.split('[,\n]+', serial_no)]
+            rms_id_list = [rms.strip() for rms in re.split('[,\n]+', rms_id)] if rms_id else [None] * len(serial_no_list)
+
+            for serial, rms in zip(serial_no_list, rms_id_list):
+                sale = Sale(
+                    sale_to=form.cleaned_data['sale_to'],
+                    quantity=form.cleaned_data['quantity'],
+                    measurement_unit=form.cleaned_data['measurement_unit'],
+                    product=form.cleaned_data['product'],
+                    category=form.cleaned_data['category'],
+                    serial_no=serial,
+                    rms_id=rms,
+                    box_type=form.cleaned_data['box_type'],
+                    date=form.cleaned_data['date'],
+                    verified_by=request.user.email,
+                    description=form.cleaned_data['description']
+                )
+                sale.save()
+            return redirect('dashboard')
+    else:
+        form = SaleForm()
+    return render(request, 'sale_form.html', {'form': form})
+
+@custom_login_required
+def purchase_form(request):
+    if request.method == 'POST':
+        form = PurchaseForm(request.POST)
+        if form.is_valid():
+            serial_no = form.cleaned_data['serial_no']
+            rms_id = form.cleaned_data.get('rms_id') or None
+            serial_no_list = [serial.strip() for serial in re.split('[,\n]+', serial_no)]
+            rms_id_list = [rms.strip() for rms in re.split('[,\n]+', rms_id)] if rms_id else [None] * len(serial_no_list)
+
+            for serial, rms in zip(serial_no_list, rms_id_list):
+                purchase = Purchase(
+                    purchased_from=form.cleaned_data['purchased_from'],
+                    quantity=form.cleaned_data['quantity'],
+                    measurement_unit=form.cleaned_data['measurement_unit'],
+                    product=form.cleaned_data['product'],
+                    category=form.cleaned_data['category'],
+                    serial_no=serial,
+                    rms_id=rms,
+                    box_type=form.cleaned_data['box_type'],
+                    date=form.cleaned_data['date'],
+                    verified_by=request.user.email,
+                    description=form.cleaned_data['description']
+                )
+                purchase.save()
+            return redirect('dashboard')
+    else:
+        form = PurchaseForm()
+    return render(request, 'purchase_form.html', {'form': form})

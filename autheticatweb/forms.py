@@ -4,7 +4,7 @@ from .models import Sale, Purchase
 class SaleForm(forms.ModelForm):
     class Meta:
         model = Sale
-        fields = ['sale_to', 'quantity', 'measurement_unit', 'product', 'category', 'serial_no', 'box_type', 'date', 'verified_by', 'description']
+        fields = ['sale_to', 'quantity', 'measurement_unit', 'product', 'category', 'serial_no','rms_id', 'box_type', 'date', 'verified_by', 'description']
     
     # Optionally, you can manually customize widgets here, like setting 'readonly' for category if needed
     # Example:
@@ -14,15 +14,22 @@ class SaleForm(forms.ModelForm):
     description = forms.CharField(
     widget=forms.Textarea(attrs={'placeholder': 'Enter discription'}),
     required=False,
-    initial='Thankyou'  # Default value set kiya
+    initial='Thankyou' 
+     
+      # Default value set kiya
 )
+    rms_id = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Enter RMS IDs separated by comma or newline'}),
+        required=False
+    )
+
 
 
 
 class PurchaseForm(forms.ModelForm):
     class Meta:
         model = Purchase
-        fields = ['purchased_from', 'quantity', 'measurement_unit', 'product', 'category', 'serial_no', 'box_type', 'date', 'verified_by', 'description']
+        fields = ['purchased_from', 'quantity', 'measurement_unit', 'product', 'category', 'serial_no', 'rms_id','box_type', 'date', 'verified_by', 'description']
     
     # Optionally, you can manually customize widgets here, like setting 'readonly' for category if needed
     # Example:
@@ -34,6 +41,10 @@ class PurchaseForm(forms.ModelForm):
     required=False,
     initial='Thankyou'  # Default value set kiya
 )
+    rms_id = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Enter RMS IDs separated by comma or newline'}),
+        required=False
+    )
 
 
 from django import forms

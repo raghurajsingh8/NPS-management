@@ -49,6 +49,9 @@ class Sale(models.Model):
     date = models.DateField(default=datetime.date.today)  # Default to today's date
     verified_by = models.CharField(max_length=255)
     description = models.CharField(max_length=255, default='Thankyou')
+
+    rms_id = models.CharField(max_length=255, blank=True, null=True, default=None)
+
     def save(self, *args, **kwargs):
         if self.product:
             self.category = self.product.category.name
@@ -72,6 +75,8 @@ class Purchase(models.Model):
     date = models.DateField(default=datetime.date.today)  # Default to today's date
     verified_by = models.CharField(max_length=255)
     description = models.CharField(max_length=255, default='Thankyou')
+    rms_id = models.CharField(max_length=255, blank=True, null=True, default=None)
+
 
     def save(self, *args, **kwargs):
         if self.product:
