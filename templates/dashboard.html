@@ -18,6 +18,30 @@
         <button class="nav-btn" onclick="exportSalesTable()">Export Sales to Excel</button>
         <button class="nav-btn" onclick="exportPurchasesTable()">Export Purchases to Excel</button>
         <button class="nav-btn" onclick="exportBothTables()">Export Sales & Purchases to Excel</button>
+
+        <select id="filter-date"  style="width: 150px; padding: 10px; border-radius: 5px; 
+        background-color:rgb(0, 2, 3);
+        border: 1px solid #ccc; 
+        color:white;
+        font-size: 16px; box-sizing: border-box;" onchange="applyDateFilter()">
+            <option value="all">Filter</option>
+            <option value="today">Today</option>
+            <option value="last3days">Last 3 Days</option>
+            <option value="last7days">Last 1 Week</option>
+            <option value="last15days">Last 15 Days</option>
+            <option value="last1month">Last 1 Month</option>
+            <option value="last3months">Last 3 Months</option>
+            <option value="last6months">Last 6 Months</option>
+        </select>
+        
+        <script>
+            function applyDateFilter() {
+                const filterDate = document.getElementById('filter-date').value;
+                const currentUrl = window.location.href.split('?')[0];
+                window.location.href = `${currentUrl}?filter_date=${filterDate}`;
+            }
+        </script>
+        
     </div>
 
     <!-- Sales Section -->
