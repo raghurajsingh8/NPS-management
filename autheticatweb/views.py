@@ -422,23 +422,56 @@ def return_item_view(request):
     
     return render(request, 'return_item.html', {'form': form,        'sales': sales,
 })
-
+from datetime import datetime, timedelta,date
 
 from .models import Sale, ReturnedItem
 
+from datetime import date, timedelta
+
 def dashboard(request):
     # Get all sales and returned items
-    purchase=Purchase.objects.all()
+    purchases = Purchase.objects.all()  # Renamed to `purchases` for consistency
     sales = Sale.objects.all()
     returned_items = ReturnedItem.objects.all()
     returned_serials = set(returned_items.values_list('serial_no', flat=True))  # Set of returned serial numbers
     sales_serialno = Sale.objects.values_list('serial_no', flat=True)  # Extract serial numbers only
+    
+    # Handle date filter
+    filter_date = request.GET.get('filter_date', 'all')
+    today = date.today()
 
+    if filter_date == 'today':
+        sales = sales.filter(date=today)
+        purchases = purchases.filter(date=today)
+    elif filter_date == 'last3days':
+        start_date = today - timedelta(days=3)
+        sales = sales.filter(date__range=[start_date, today])
+        purchases = purchases.filter(date__range=[start_date, today])
+    elif filter_date == 'last7days':
+        start_date = today - timedelta(days=7)
+        sales = sales.filter(date__range=[start_date, today])
+        purchases = purchases.filter(date__range=[start_date, today])
+    elif filter_date == 'last15days':
+        start_date = today - timedelta(days=15)
+        sales = sales.filter(date__range=[start_date, today])
+        purchases = purchases.filter(date__range=[start_date, today])
+    elif filter_date == 'last1month':
+        start_date = today - timedelta(days=30)
+        sales = sales.filter(date__range=[start_date, today])
+        purchases = purchases.filter(date__range=[start_date, today])
+    elif filter_date == 'last3months':
+        start_date = today - timedelta(days=90)
+        sales = sales.filter(date__range=[start_date, today])
+        purchases = purchases.filter(date__range=[start_date, today])
+    elif filter_date == 'last6months':
+        start_date = today - timedelta(days=180)
+        sales = sales.filter(date__range=[start_date, today])
+        purchases = purchases.filter(date__range=[start_date, today])
 
     return render(request, 'dashboard.html', {
         'sales': sales,
         'returned_serials': returned_serials,
-        'purchases':purchase,
+        'purchases': purchases,  # Updated variable name
         'sales_serialno': sales_serialno
     })
 
